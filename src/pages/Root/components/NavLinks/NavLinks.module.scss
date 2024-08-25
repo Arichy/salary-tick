@@ -1,0 +1,18 @@
+.navLink {
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.5rem;
+
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #f0f0f0;
+  }
+}
+
+.active {
+  font-weight: bold;
+  background-color: var(--mantine-color-gray-1);
+}
