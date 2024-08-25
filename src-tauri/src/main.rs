@@ -27,11 +27,9 @@ fn load_settings(app_handle: tauri::AppHandle) -> Settings {
 
     if settings_file_path.exists() {
         let settings_file = std::fs::read_to_string(settings_file_path).unwrap();
-        println!("read result {}", settings_file);
         let settings: Settings = serde_json::from_str(&settings_file).unwrap_or_default();
         settings
     } else {
-        println!("not exist");
         Settings::default()
     }
 }
@@ -68,7 +66,6 @@ fn save_settings(
         .unwrap();
 
     let settings_json = serde_json::to_string(&*settings).map_err(|e| e.to_string())?;
-    println!("langeuage:{:?}, settings_json:{}", language, settings_json);
     let settings_path = get_settings_file_path(&app_handle);
 
     // if the folder does not exist, create it
@@ -78,7 +75,6 @@ fn save_settings(
         }
     }
 
-    println!("write to{}", settings_path.display());
     fs::write(settings_path, settings_json).map_err(|e| e.to_string())?;
 
     Ok(())
