@@ -3,8 +3,10 @@
 
 use std::{fs, sync::Mutex, thread, time::Duration};
 
+mod i18n;
 mod settings;
 
+use i18n::I18n;
 use settings::Settings;
 
 use chrono::{Local, NaiveTime, Timelike};
@@ -25,6 +27,7 @@ fn load_settings(app_handle: tauri::AppHandle) -> Settings {
 
     if settings_file_path.exists() {
         let settings_file = std::fs::read_to_string(settings_file_path).unwrap();
+        println!("read result {}", settings_file);
         let settings: Settings = serde_json::from_str(&settings_file).unwrap_or_default();
         settings
     } else {
@@ -41,6 +44,7 @@ fn save_settings(
     start_time: String,
     end_time: String,
     currency_symbol: char,
+    language: String,
 ) -> Result<(), String> {
     let start_time = NaiveTime::parse_from_str(&start_time, "%H:%M").unwrap();
     let end_time = NaiveTime::parse_from_str(&end_time, "%H:%M").unwrap();
@@ -51,8 +55,20 @@ fn save_settings(
     settings.start_time = start_time;
     settings.end_time = end_time;
     settings.currency_symbol = currency_symbol;
+    settings.language = match language.as_str() {
+        "en" => i18n::Language::EN,
+        "zh" => i18n::Language::ZH,
+        _ => i18n::Language::EN,
+    };
+
+    update_language(settings.language, &app_handle);
+
+    app_handle
+        .emit_all("update-settings", settings.clone())
+        .unwrap();
 
     let settings_json = serde_json::to_string(&*settings).map_err(|e| e.to_string())?;
+    println!("langeuage:{:?}, settings_json:{}", language, settings_json);
     let settings_path = get_settings_file_path(&app_handle);
 
     // if the folder does not exist, create it
@@ -66,6 +82,24 @@ fn save_settings(
     fs::write(settings_path, settings_json).map_err(|e| e.to_string())?;
 
     Ok(())
+}
+
+fn update_language(language: i18n::Language, app_handle: &tauri::AppHandle) {
+    let i18n = I18n::new(language);
+
+    let system_tray_menu = SystemTrayMenu::new()
+        .add_item(CustomMenuItem::new(
+            "settings".to_string(),
+            i18n.translate("settings", None),
+        ))
+        .add_item(CustomMenuItem::new(
+            "quit".to_string(),
+            i18n.translate("quit", None),
+        ));
+
+    app_handle.tray_handle().set_menu(system_tray_menu).unwrap();
+
+    app_handle.emit_all("update-language", language).unwrap();
 }
 
 fn main() {
@@ -106,6 +140,19 @@ fn main() {
             let app_handle = app.handle();
 
             let settings = load_settings(app.handle());
+
+            let i18n = I18n::new(settings.language);
+
+            let system_tray_menu = SystemTrayMenu::new()
+                .add_item(CustomMenuItem::new(
+                    "settings".to_string(),
+                    i18n.translate("settings", None),
+                ))
+                .add_item(CustomMenuItem::new(
+                    "quit".to_string(),
+                    i18n.translate("quit", None),
+                ));
+            app_handle.tray_handle().set_menu(system_tray_menu)?;
 
             app.manage(Mutex::new(settings));
 

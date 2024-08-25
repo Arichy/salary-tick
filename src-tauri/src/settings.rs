@@ -1,6 +1,8 @@
 use chrono::NaiveTime;
 use serde::{Deserialize, Serialize};
 
+use crate::i18n::Language;
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Settings {
     pub daily_salary: f64,
@@ -9,6 +11,7 @@ pub struct Settings {
     #[serde(with = "serde_time")]
     pub end_time: NaiveTime,
     pub currency_symbol: char,
+    pub language: Language,
 }
 
 impl Default for Settings {
@@ -18,6 +21,7 @@ impl Default for Settings {
             start_time: NaiveTime::from_hms_opt(9, 0, 0).unwrap(),
             end_time: NaiveTime::from_hms_opt(17, 0, 0).unwrap(),
             currency_symbol: '$',
+            language: Language::EN,
         }
     }
 }

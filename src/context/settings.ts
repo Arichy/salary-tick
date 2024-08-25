@@ -1,12 +1,7 @@
 import { createContext, useContext } from 'react';
 import { Settings } from '../types';
 
-const SettingsContext = createContext<Settings>({
-  dailySalary: 0,
-  startTime: '09:00',
-  endTime: '17:00',
-  currencySymbol: '$',
-});
+const SettingsContext = createContext<Settings | null>(null);
 
 export const SettingsProvider = SettingsContext.Provider;
 

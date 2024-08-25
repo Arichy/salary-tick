@@ -1,23 +1,11 @@
-import { Button, Center, NumberInput, Select, Stack } from '@mantine/core';
+import { Button, NumberInput, Select, Stack } from '@mantine/core';
 import { TimeInput } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import { invoke } from '@tauri-apps/api/tauri';
-import { useEffect, useLayoutEffect } from 'react';
 import useSettings from '../../context/settings';
-
-type NativeSettingsJSON = {
-  daily_salary: number;
-  start_time: string;
-  end_time: string;
-  currency_symbol: string;
-};
-
-type Settings = {
-  dailySalary: number;
-  startTime: string;
-  endTime: string;
-  currencySymbol: string;
-};
+import { Settings as ISettings } from '../../types';
+import { useTranslation } from 'react-i18next';
+import { I18N_KEYS } from '../../i18n';
 
 const currencySymbols = {
   dollar: '$', // USD, CAD, AUD, NZD, HKD, SGD, etc.
@@ -34,11 +22,10 @@ const currencySymbols = {
 };
 export default function Settings() {
   const settings = useSettings();
-  useEffect(() => {
-    form.setValues(settings);
-  }, [settings]);
 
-  const form = useForm<Settings>({
+  const { t } = useTranslation();
+
+  const form = useForm<ISettings>({
     mode: 'controlled',
     initialValues: settings,
     validate: {
@@ -52,23 +39,37 @@ export default function Settings() {
         style={{ width: 200 }}
         onSubmit={form.onSubmit(values => {
           console.log(values);
-          invoke('save_settings', values)
-            .then(res => {
-              console.log(res);
-            })
-            .catch(err => {
-              console.log(err);
-            });
+
+          queueMicrotask(() => {
+            invoke('save_settings', values)
+              .then(res => {
+                console.log(res);
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          });
         })}
       >
         <Stack>
-          <NumberInput label="Daily Salary" {...form.getInputProps('dailySalary')} />
-          <TimeInput label="Start Time" {...form.getInputProps('startTime')} />
-          <TimeInput label="End Time" {...form.getInputProps('endTime')} />
+          <NumberInput label={t(I18N_KEYS.dailySalary)} {...form.getInputProps('dailySalary')} />
+          <TimeInput label={t(I18N_KEYS.startTime)} {...form.getInputProps('startTime')} />
+          <TimeInput label={t(I18N_KEYS.endTime)} {...form.getInputProps('endTime')} />
           <Select
-            label="Currency Symbol"
+            label={t(I18N_KEYS.currencySymbol)}
             data={Object.values(currencySymbols)}
+            allowDeselect={false}
             {...form.getInputProps('currencySymbol')}
+          />
+
+          <Select
+            label={t(I18N_KEYS.language)}
+            data={[
+              { label: 'English', value: 'en' },
+              { label: '简体中文', value: 'zh' },
+            ]}
+            allowDeselect={false}
+            {...form.getInputProps('language')}
           />
         </Stack>
 

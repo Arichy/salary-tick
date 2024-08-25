@@ -1,18 +1,21 @@
 import { NavLink } from 'react-router-dom';
 import type { IconProps } from '@tabler/icons-react';
-import { IconDeviceNintendo, IconHome, IconSettings, IconUserCircle } from '@tabler/icons-react';
+import { IconSettings } from '@tabler/icons-react';
 import classNames from 'classnames';
 import styles from './NavLinks.module.scss';
-
-const navlinks = [
-  {
-    title: 'Settings',
-    href: '/settings',
-    renderIcon: (props: IconProps) => <IconSettings {...props} />,
-  },
-];
+import { useTranslation } from 'react-i18next';
 
 export default function NavLinks() {
+  const { t } = useTranslation();
+
+  const navlinks = [
+    {
+      title: t('settings'),
+      href: '/settings',
+      renderIcon: (props: IconProps) => <IconSettings {...props} />,
+    },
+  ];
+
   return (
     <>
       {navlinks.map(link => (

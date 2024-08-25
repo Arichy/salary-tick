@@ -3,6 +3,7 @@ export type NativeSettingsJSON = {
   start_time: string;
   end_time: string;
   currency_symbol: string;
+  language: 'en' | 'zh';
 };
 
 export type Settings = {
@@ -10,4 +11,5 @@ export type Settings = {
   startTime: string;
   endTime: string;
   currencySymbol: string;
+  language: string;
 };
