@@ -2,7 +2,9 @@
 
 ### Show how much you've earned today in menu bar, updated every second.
 
-<img src="./public//salary-tick.gif" alt="screenshot" style="display: block; margin: auto;" />
+<p align="center">
+  <img src="./public/salary-tick.gif" />
+</p>
 
 ### Settings
 
