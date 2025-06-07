@@ -1,7 +1,11 @@
-# Tauri + React + Typescript
+# Salary Tick
 
-This template should help get you started developing with Tauri, React and Typescript in Vite.
+### Show how much you've earned today in menu bar, updated every second.
 
-## Recommended IDE Setup
+<p align="center">
+  <img src="./public/salary-tick.gif" />
+</p>
 
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+### Settings
+
+![settings](./public/settings.png)
