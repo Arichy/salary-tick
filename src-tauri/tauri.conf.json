@@ -22,7 +22,7 @@
       "csp": null
     },
     "trayIcon": {
-      "iconPath": "icons/icon.png",
+      "iconPath": "../tray.png",
       "iconAsTemplate": true
     }
   },
