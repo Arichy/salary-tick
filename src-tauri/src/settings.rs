@@ -1,7 +1,9 @@
+use std::sync::{OnceLock, RwLock};
+
 use chrono::NaiveTime;
 use serde::{Deserialize, Serialize};
 
-use crate::i18n::Language;
+use crate::{cmd::load_settings, i18n::Language};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Settings {
@@ -23,6 +25,14 @@ impl Default for Settings {
             currency_symbol: '$',
             language: Language::EN,
         }
+    }
+}
+
+static SETTINGS: OnceLock<RwLock<Settings>> = OnceLock::new();
+
+impl Settings {
+    pub fn get() -> &'static RwLock<Settings> {
+        SETTINGS.get_or_init(|| RwLock::new(Settings::default()))
     }
 }
 

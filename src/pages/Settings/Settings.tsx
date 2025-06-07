@@ -1,7 +1,7 @@
 import { Button, NumberInput, Select, Stack } from '@mantine/core';
 import { TimeInput } from '@mantine/dates';
 import { useForm } from '@mantine/form';
-import { invoke } from '@tauri-apps/api/tauri';
+import { invoke } from '@tauri-apps/api/core';
 import useSettings from '../../context/settings';
 import { Settings as ISettings } from '../../types';
 import { useTranslation } from 'react-i18next';
