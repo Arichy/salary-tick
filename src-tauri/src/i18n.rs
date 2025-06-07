@@ -2,6 +2,7 @@ use fluent::{FluentBundle, FluentResource};
 use fluent_bundle::FluentArgs;
 use serde::{Deserialize, Serialize};
 use std::fmt;
+use tracing::error;
 use unic_langid::LanguageIdentifier;
 
 #[derive(Clone, Copy, PartialEq, Eq)]
@@ -88,7 +89,7 @@ impl I18n {
         let value = self.bundle.format_pattern(pattern, args, &mut errors);
 
         if !errors.is_empty() {
-            eprintln!("Failed to format message: {:?}", errors);
+            error!("Failed to format message: {:?}", errors);
         }
 
         value.into_owned()

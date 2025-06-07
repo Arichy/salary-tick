@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useState } from 'react';
 import { invoke } from '@tauri-apps/api/core';
 import { listen } from '@tauri-apps/api/event';
-import { AppShell, Group, MantineProvider, Text } from '@mantine/core';
+import { AppShell, Center, Group, Loader, MantineProvider, Text } from '@mantine/core';
 import { Outlet } from 'react-router-dom';
 import NavLinks from './pages/Root/components/NavLinks/NavLinks';
 import { SettingsProvider } from './context/settings';
@@ -78,9 +78,17 @@ function App() {
     };
   }, []);
 
-  return settings ? (
-    <SettingsProvider value={settings}>
-      <MantineProvider>
+  const renderContent = () => {
+    if (!settings) {
+      return (
+        <Center>
+          <Loader />
+        </Center>
+      );
+    }
+
+    return (
+      <SettingsProvider value={settings}>
         <AppShell header={{ height: 60 }} navbar={{ width: 200, breakpoint: 'sm' }} padding="md">
           <AppShell.Header p="md">
             <Group gap="xs">
@@ -95,9 +103,11 @@ function App() {
             <Outlet />
           </AppShell.Main>
         </AppShell>
-      </MantineProvider>
-    </SettingsProvider>
-  ) : null;
+      </SettingsProvider>
+    );
+  };
+
+  return <MantineProvider>{renderContent()}</MantineProvider>;
 }
 
 export default App;
