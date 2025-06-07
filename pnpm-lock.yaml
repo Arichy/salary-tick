@@ -63,6 +63,9 @@ importers:
       '@vitejs/plugin-react':
         specifier: ^4.3.4
         version: 4.5.1(vite@6.3.5(sass-embedded@1.89.1))
+      commander:
+        specifier: ^14.0.0
+        version: 14.0.0
       sass-embedded:
         specifier: ^1.89.1
         version: 1.89.1
@@ -636,6 +639,10 @@ packages:
 
   colorjs.io@0.5.2:
     resolution: {integrity: sha512-twmVoizEW7ylZSN32OgKdXRmo1qg+wT5/6C3xu5b9QsWzSFAhHLn2xd8ro0diCsKfCj1RdaTP/nrcW+vAoQPIw==}
+
+  commander@14.0.0:
+    resolution: {integrity: sha512-2uM9rYjPvyq39NwLRqaiLtWHyDC1FvryJDa2ATTVims5YAS4PupsEQsDvP14FqhFr0P49CYDugi59xaxJlTXRA==}
+    engines: {node: '>=20'}
 
   convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
@@ -1566,6 +1573,8 @@ snapshots:
   clsx@2.1.1: {}
 
   colorjs.io@0.5.2: {}
+
+  commander@14.0.0: {}
 
   convert-source-map@2.0.0: {}
 
