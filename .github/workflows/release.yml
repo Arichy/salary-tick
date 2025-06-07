@@ -45,8 +45,7 @@ jobs:
 
       - uses: pnpm/action-setup@v4
         name: Install pnpm
-        with:
-          version: 10 # change this to the version of pnpm you want to use.
+
       - name: install frontend dependencies
         run: pnpm install # change this to npm, pnpm or bun depending on which one you use.
 
